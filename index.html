@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Portal</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background: #f5f5f3;
+        color: #1a1a18;
+        min-height: 100vh;
+      }
+
+      /* Header */
+      .top-bar {
+        background: #fff;
+        border-bottom: 1px solid #e8e8e4;
+        padding: 0 2rem;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .top-bar-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        background: #e6f1fb;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .top-bar-icon svg {
+        color: #185fa5;
+      }
+      .top-bar h1 {
+        font-size: 18px;
+        font-weight: 500;
+        color: #1a1a18;
+      }
+      .top-bar p {
+        font-size: 13px;
+        color: #888780;
+        margin-top: 1px;
+      }
+
+      /* Main layout */
+      .container {
+        max-width: 760px;
+        margin: 2rem auto;
+        padding: 0 1.5rem;
+      }
+
+      /* Stats */
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-bottom: 1.5rem;
+      }
+      .stat {
+        background: #fff;
+        border: 0.5px solid #e8e8e4;
+        border-radius: 12px;
+        padding: 0.9rem 1.1rem;
+        text-align: center;
+      }
+      .stat-num {
+        font-size: 24px;
+        font-weight: 500;
+        color: #1a1a18;
+      }
+      .stat-lbl {
+        font-size: 12px;
+        color: #888780;
+        margin-top: 3px;
+      }
+
+      /* Card */
+      .card {
+        background: #fff;
+        border: 0.5px solid #e8e8e4;
+        border-radius: 12px;
+        padding: 1.25rem;
+        margin-bottom: 1.25rem;
+      }
+      .section-label {
+        font-size: 11px;
+        font-weight: 500;
+        color: #888780;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 1rem;
+      }
+
+      /* Form */
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 10px;
+        align-items: center;
+      }
+      @media (max-width: 560px) {
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      .form-row input {
+        height: 38px;
+        border-radius: 8px;
+        border: 0.5px solid #d3d1c7;
+        background: #f5f5f3;
+        color: #1a1a18;
+        font-size: 14px;
+        padding: 0 12px;
+        outline: none;
+        width: 100%;
+        font-family: inherit;
+        transition:
+          border-color 0.15s,
+          box-shadow 0.15s;
+      }
+      .form-row input::placeholder {
+        color: #b4b2a9;
+      }
+      .form-row input:focus {
+        border-color: #378add;
+        box-shadow: 0 0 0 3px rgba(55, 138, 221, 0.12);
+        background: #fff;
+      }
+      .btn-add {
+        height: 38px;
+        padding: 0 18px;
+        border-radius: 8px;
+        background: #1a1a18;
+        color: #fff;
+        border: none;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: inherit;
+        transition:
+          opacity 0.15s,
+          transform 0.1s;
+      }
+      .btn-add:hover {
+        opacity: 0.82;
+      }
+      .btn-add:active {
+        transform: scale(0.97);
+      }
+
+      /* Job list */
+      .jobs-list {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .job-card {
+        background: #fff;
+        border: 0.5px solid #e8e8e4;
+        border-radius: 12px;
+        padding: 0.9rem 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        animation: fadeIn 0.22s ease;
+        transition: border-color 0.15s;
+      }
+      .job-card:hover {
+        border-color: #d3d1c7;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(5px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .job-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .job-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 500;
+        flex-shrink: 0;
+      }
+
+      .job-title {
+        font-size: 15px;
+        font-weight: 500;
+        color: #1a1a18;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .job-loc {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 13px;
+        color: #888780;
+        margin-top: 2px;
+      }
+      .job-loc svg {
+        flex-shrink: 0;
+      }
+
+      .job-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-shrink: 0;
+      }
+
+      .badge {
+        font-size: 11px;
+        font-weight: 500;
+        padding: 3px 10px;
+        border-radius: 100px;
+        background: #eaf3de;
+        color: #3b6d11;
+      }
+
+      .btn-del {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 0.5px solid #f7c1c1;
+        background: transparent;
+        color: #a32d2d;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          background 0.15s,
+          transform 0.1s;
+      }
+      .btn-del:hover {
+        background: #fcebeb;
+      }
+      .btn-del:active {
+        transform: scale(0.95);
+      }
+
+      /* Empty state */
+      .empty {
+        text-align: center;
+        padding: 2.5rem 1rem;
+        color: #b4b2a9;
+      }
+      .empty svg {
+        width: 36px;
+        height: 36px;
+        margin-bottom: 10px;
+        opacity: 0.4;
+        display: block;
+        margin-inline: auto;
+      }
+      .empty p {
+        font-size: 14px;
+      }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #1a1a18;
+        color: #fff;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 500;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+        z-index: 100;
+        font-family: inherit;
+      }
+      .toast.show {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="top-bar">
+      <div class="top-bar-icon">
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <rect x="2" y="7" width="20" height="14" rx="2" />
+          <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+        </svg>
+      </div>
+      <div>
+        <h1>Job Portal</h1>
+        <p>Manage your open positions</p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Stats -->
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-lbl">Total jobs</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="stat-locs">0</div>
+          <div class="stat-lbl">Locations</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num" id="stat-new">0</div>
+          <div class="stat-lbl">Added today</div>
+        </div>
+      </div>
+
+      <!-- Add Job Form -->
+      <div class="card">
+        <div class="section-label">Post a new job</div>
+        <div class="form-row">
+          <input id="title" placeholder="Job title, e.g. Senior Engineer" />
+          <input id="location" placeholder="Location, e.g. Remote / Delhi" />
+          <button class="btn-add" onclick="addJob()">
+            <svg
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+            >
+              <line x1="12" y1="5" x2="12" y2="19" />
+              <line x1="5" y1="12" x2="19" y2="12" />
+            </svg>
+            Add job
+          </button>
+        </div>
+      </div>
+
+      <!-- Job Listings -->
+      <div class="card">
+        <div class="section-label">Listings</div>
+        <div class="jobs-list" id="jobs"></div>
+      </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+      let addedToday = 0;
+
+      const avatarStyles = [
+        { bg: "#e6f1fb", color: "#185fa5" },
+        { bg: "#eaf3de", color: "#3b6d11" },
+        { bg: "#faeeda", color: "#854f0b" },
+        { bg: "#fbeaf0", color: "#993556" },
+        { bg: "#e1f5ee", color: "#0f6e56" },
+      ];
+
+      function initials(title) {
+        return (
+          title
+            .split(" ")
+            .slice(0, 2)
+            .map((w) => w[0] || "")
+            .join("")
+            .toUpperCase() || "?"
+        );
+      }
+
+      function showToast(msg) {
+        const t = document.getElementById("toast");
+        t.textContent = msg;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 2400);
+      }
+
+      function renderJobs(data) {
+        const list = document.getElementById("jobs");
+
+        if (!data.length) {
+          list.innerHTML = `
+      <div class="empty">
+        <p>No jobs yet — post your first role above</p>
+      </div>`;
+          document.getElementById("stat-total").textContent = "0";
+          document.getElementById("stat-locs").textContent = "0";
+          document.getElementById("stat-new").textContent = addedToday;
+          return;
+        }
+
+        list.innerHTML = data
+          .map((job, i) => {
+            const s = avatarStyles[i % avatarStyles.length];
+            return `
+      <div class="job-card">
+        <div class="job-meta">
+          <div class="job-avatar" style="background:${s.bg};color:${s.color}">
+            ${initials(job.job_title)}
+          </div>
+          <div>
+            <div class="job-title">${job.job_title}</div>
+            <div class="job-loc">${job.location}</div>
+          </div>
+        </div>
+        <div class="job-actions">
+          <span class="badge">Active</span>
+          <button class="btn-del" onclick="deleteJob(${job.job_id})">
+            ✕
+          </button>
+        </div>
+      </div>`;
+          })
+          .join("");
+
+        const uniqueLocs = new Set(data.map((j) => j.location)).size;
+
+        // ✅ FIXED STATS
+        document.getElementById("stat-total").textContent = data.length;
+        document.getElementById("stat-locs").textContent = uniqueLocs;
+        document.getElementById("stat-new").textContent = addedToday;
+      }
+
+      function loadJobs() {
+        fetch("http://localhost:3000/jobs")
+          .then((res) => res.json())
+          .then(renderJobs)
+          .catch((err) => {
+            console.error(err);
+            renderJobs([]);
+          });
+      }
+
+      function addJob() {
+        const title = document.getElementById("title").value.trim();
+        const location = document.getElementById("location").value.trim();
+
+        if (!title || !location) {
+          showToast("Please fill in both fields");
+          return;
+        }
+
+        fetch("http://localhost:3000/jobs", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            company_id: 1,
+            job_title: title,
+            location: location,
+            min_salary: 500000,
+            max_salary: 1000000,
+          }),
+        })
+          .then((res) => res.text())
+          .then(() => {
+            addedToday++;
+            document.getElementById("title").value = "";
+            document.getElementById("location").value = "";
+            showToast("Job posted successfully");
+            loadJobs();
+          })
+          .catch((err) => {
+            console.error(err);
+            showToast("Could not connect to server");
+          });
+      }
+
+      function deleteJob(id) {
+        fetch(`http://localhost:3000/jobs/${id}`, { method: "DELETE" })
+          .then(() => {
+            showToast("Job removed");
+            loadJobs();
+          })
+          .catch((err) => {
+            console.error(err);
+            showToast("Could not connect to server");
+          });
+      }
+
+      // 🚀 Initial load
+      loadJobs();
+    </script>
+  </body>
+</html>
