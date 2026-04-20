@@ -1,31 +1,46 @@
 # 🚀 Job Portal Data Management System  
-### *(Data Engineering Project)*
+### *(Full Stack + Data Engineering Project)*  
+
 ![MySQL](https://img.shields.io/badge/Database-MySQL-blue)
-![SQL](https://img.shields.io/badge/Language-SQL-orange)
+![Node.js](https://img.shields.io/badge/Backend-Node.js-green)
+![Express](https://img.shields.io/badge/API-Express-black)
+![Frontend](https://img.shields.io/badge/Frontend-HTML%20%2B%20JS-orange)
 ![Status](https://img.shields.io/badge/Project-Completed-brightgreen)
 
 ---
 
 ## 📌 Overview
-This project implements a **data-driven job portal system** using MySQL. It focuses on structured data storage, processing, validation, and analytics, aligning with core **Data Engineering principles**.
+This project is a **full-stack job portal system** built using **MySQL, Node.js, and a dynamic frontend UI**.
 
-The system manages job seekers, companies, job listings, applications, and skills while providing meaningful insights through SQL queries.
+It demonstrates core **Data Engineering concepts** such as:
+- Structured data storage  
+- Data validation  
+- Query optimization  
+- Analytical insights  
+
+along with **backend API development and frontend integration**.
 
 ---
 
 ## 🎯 Problem Statement
-Managing large volumes of job postings and candidate data efficiently is challenging. Traditional systems lack structured data handling, validation, and analytical capabilities.
-
-This project solves this by building a **relational database system** that ensures:
+Managing job listings and candidate data at scale requires:
+- Efficient storage  
 - Data integrity  
-- Efficient querying  
-- Insight generation  
+- Fast querying  
+- Real-time interaction  
+
+Traditional SQL-only systems lack user interaction and dynamic processing.
+
+👉 This project solves that by combining:
+- Relational database design  
+- REST APIs using Node.js  
+- Interactive frontend UI  
 
 ---
 
 ## ⚙️ Features
 
-### 🗄️ Data Storage Layer
+### 🗄️ Data Storage Layer (MySQL)
 - Normalized relational database (`job_portal_db`)
 - Tables:
   - Users  
@@ -69,77 +84,95 @@ This project solves this by building a **relational database system** that ensur
 
 ---
 
+### 🌐 Backend API Layer (Node.js + Express)
+- REST APIs:
+  - `GET /jobs` → Fetch all jobs  
+  - `GET /jobs/:id` → Fetch job by ID  
+  - `POST /jobs` → Add new job  
+  - `DELETE /jobs/:id` → Delete job  
+  - `GET /stats` → Dashboard statistics  
+
+---
+
+### 💻 Frontend UI
+- Interactive dashboard built using HTML, CSS, JavaScript  
+- Features:
+  - View job listings  
+  - Add new jobs  
+  - Delete jobs  
+  - Live UI updates  
+  - Dashboard stats (total jobs, locations, etc.)
+
+---
+
 ### 📊 Analytical Insights
 - Most in-demand skills  
 - Hiring trends by company  
-- Number of applications per job  
+- Applications per job  
 - Highest paying jobs  
 
 ---
 
 ## 🛠️ Tech Stack
-- **Database:** MySQL  
-- **Tool:** MySQL Workbench  
-- **Language:** SQL  
 
----
-
-## 🗂️ Database Schema
-The system includes the following key entities:
-- Users (job seekers & employers)  
-- Companies  
-- Job Seekers  
-- Job Listings  
-- Applications  
-- Skills  
-
-### Relationships:
-- One-to-many → Company → Job Listings  
-- One-to-many → User → Job Seeker / Company  
-- Many-to-many → Skills mapping tables  
+| Layer | Technology |
+|------|-----------|
+| Database | MySQL |
+| Backend | Node.js, Express |
+| Frontend | HTML, CSS, JavaScript |
+| Tools | MySQL Workbench |
 
 ---
 
 ## ▶️ How to Run
 
-1. Open MySQL Workbench  
-2. Create database:
-   ```sql
-   CREATE DATABASE job_portal_db;
-   USE job_portal_db;
-3.Run files in order:
 ```sql
-   schema.sql
-   data.sql
-   queries.sql
-   views.sql
-   procedures.sql
-   trigger.sql
-```
+1️⃣ Setup Database
+CREATE DATABASE job_portal_db;
+USE job_portal_db;
+Run files in order:
+schema.sql
+data.sql
+views.sql
+procedures.sql
+triggers.sql
+queries.sql
 
+2️⃣ Setup Backend
+npm install
+node server.js
+Server runs at:
+http://localhost:3000
+
+3️⃣ Run Frontend
+Open index.html in browser
+```
 ---
 
 ## ✨ Unique Points
+- Combines Data Engineering + Full Stack Development
+- Real-world relational schema design
 - Data validation using triggers
 - Automation using stored procedures
-- Analytical SQL queries for insights
-- Proper normalized schema design
-- Simulates a real-world data engineering pipeline
+- REST API integration with database
+- Interactive frontend UI
 
 ---
 
 ## 🔮 Future Improvements
-- Frontend integration (React)
-- Real-time streaming using Kafka
-- Workflow orchestration using Airflow
-- Big data processing using Spark
+- Authentication system (login/signup)
+- Role-based access (admin/employer/seeker)
+- Search & filter functionality
+- Deployment (Render / Railway / Vercel)
+- Big data integration (Kafka, Spark)
 - Dashboard visualization (Power BI / Tableau)
 
 ---
 
- ## 📌 Conclusion
+## 📌 Conclusion
+This project demonstrates a complete pipeline from data storage → processing → validation → API → frontend visualization, reflecting real-world data engineering and backend development practices.
 
-This project demonstrates a structured approach to data management using SQL, covering storage, processing, validation, and analytics. It reflects real-world data engineering concepts in a simplified system.
+---
 
 ## 👤 Author
 
